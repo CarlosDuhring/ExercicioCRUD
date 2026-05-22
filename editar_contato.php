@@ -1,0 +1,66 @@
+<?php
+require_once "config.php";
+
+$id = $_GET['id'];
+
+
+$stmt = $pdo->prepare(
+    "SELECT * FROM tb_contatos WHERE id = ?"
+);
+
+$stmt->execute([$id]);
+
+$contato = $stmt->fetch(PDO::FETCH_ASSOC);
+
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+    $nome     = trim($_POST['nome'] ?? '');
+    $email    = trim($_POST['email'] ?? '');
+    $telefone = trim($_POST['telefone'] ?? '');
+
+    if ($nome && $email) {
+
+        $stmt = $pdo->prepare(
+            "UPDATE tb_contatos 
+             SET nome = ?, email = ?, telefone = ?
+             WHERE id = ?"
+        );
+
+        $stmt->execute([
+            $nome,
+            $email,
+            $telefone,
+            $id
+        ]);
+
+        header('Location: index.php');
+        exit;
+    }
+}
+?>
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Editar contato</title>
+</head>
+<body>
+
+<div style="margin:20px;">
+
+    <h1>Editar Contato</h1>
+
+    <form method="POST">
+
+        <input type="text" name="nome" value="<?= $contato['nome'] ?>"required>
+        <input type="email"name="email"value="<?= $contato['email'] ?>"required>
+        <input type="text"name="telefone"value="<?= $contato['telefone'] ?>">
+        <button type="submit">Salvar</button>
+    </form>
+
+</div>
+
+</body>
+</html>
