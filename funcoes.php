@@ -1,6 +1,6 @@
 <?php
 // funcoes.php — funções reutilizáveis
-
+include_once 'config.php';
 /**
  * Retorna o array de contatos.
  * Em um projeto real, isso viria do banco de dados.
@@ -43,3 +43,4 @@ function exibirTabelaContatos(array $contatos): void {
     echo "  </tbody>\n";
     echo "</table>\n";
 }
+?>

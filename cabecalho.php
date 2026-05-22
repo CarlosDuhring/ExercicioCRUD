@@ -16,10 +16,13 @@
         <div class="navbar">
             <h1>Lista de Contatos</h1>
             <ul>
-                <li><a href="#">Inicio</a></li>
-                <li><a href="#">Cadastrar cliente </a></li>
-                <li><a href="#">Cadastrar produto</a></li>
+                <li><a href="index.php">Inicio</a></li>
+                <li><a href="cadastro_cliente.php">Cadastrar Cliente </a></li>
+                <li><a href="cadastro_produto.php">Cadastrar Produto</a></li>
                 <li><a href="cadastro_contato.php">Cadastrar contato</a></li>
+                <li><a href="clientes.php">Clientes</a></li>
+                <li><a href="contatos.php">Contatos</a></li>
+                <li><a href="produtos.php">Produtos</a></li>
             </ul>  
         </div>
     </header>

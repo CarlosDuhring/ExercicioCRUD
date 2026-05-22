@@ -1,0 +1,74 @@
+<?php
+require_once "config.php";
+require_once "funcoes_clientes.php";
+
+$id = $_GET['id'];
+
+
+$stmt = $pdo->prepare(
+    "SELECT * FROM tb_clientes WHERE id = ?"
+);
+
+$stmt->execute([$id]);
+
+$clientes = $stmt->fetch(PDO::FETCH_ASSOC);
+
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+    $nome     = trim($_POST['nome'] ?? '');
+    $cpf     = trim($_POST['cpf'] ?? '');
+    $email    = trim($_POST['email'] ?? '');
+    $telefone = trim($_POST['telefone'] ?? '');
+    $endereco = trim($_POST['endereco'] ?? '');
+    $fCpf = formatarCpf($cpf);
+
+
+    if ($nome && $email) {
+
+        $stmt = $pdo->prepare(
+            "UPDATE tb_clientes
+             SET nome = ?,cpf = ?,  email =?, telefone = ?, endereco = ?
+             WHERE id = ?"
+        );
+
+        $stmt->execute([
+            $nome,
+            $fCpf,
+            $email,
+            $telefone,
+            $endereco,
+            $id
+        ]);
+
+        header('Location: index.php');
+        exit;
+    }
+}
+?>
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Editar contato</title>
+</head>
+<body>
+
+<div style="margin:20px;">
+
+    <h1 >Cadastro Cliente</h1>
+    <form action="" method="POST">
+        <label for="Contatos"></label>
+            <input name="nome" id="nome" type="text" value="<?=  $clientes['nome']?>" placeholder="Digite seu nome:" required>
+            <input name="cpf" id="cpf" type="text" value="<?=  $clientes['cpf']?>" placeholder="Digite seu CPF:" required>
+            <input name="email" id="email" type="email" value="<?=  $clientes['email']?>" placeholder="Digite seu email:" required>
+            <input name="telefone" id="telefone" type="tel" value="<?=  $clientes['telefone']?>" placeholder="Digite seu telefone:" required>
+            <input name="endereco" id="endereco" type="text" value="<?=  $clientes['endereco']?>" placeholder="Digite seu endereço:" required>
+            <button type="submit">Enviar</button>
+    </form>
+
+</div>
+
+</body>
+</html>
