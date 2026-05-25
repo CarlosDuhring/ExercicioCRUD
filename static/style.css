@@ -1,0 +1,29 @@
+nav{
+    background-color: #333;
+    color: #fff;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0px;
+    width: 100%;
+}
+
+li {margin-right: 20px;}
+a {color: #e48820; text-decoration: none;}
+ul {list-style: none;display: flex;}
+body {margin: 0; font-family: Arial, sans-serif; }
+table {border-collapse: collapse; width: 80%;  margin: 30px auto;}
+th, td { border: 1px solid rgb(204, 204, 204); padding: 8px; text-align: left; }
+th { background-color: #eee; }
+.card{
+    background-color: #919191;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 20px;
+    margin: 20px auto;
+    width: 80%;
+    min-height: 400px;
+    display: flex;
+    align-items: center;
+}

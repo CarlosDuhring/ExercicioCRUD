@@ -1,6 +1,6 @@
 <?php
 require_once "config.php";
-require_once "funcoes_produtos.php";
+require_once "funcoes_produto.php";
 
 $id = $_GET['id'];
 
@@ -20,22 +20,45 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $descricao   = trim($_POST['descricao'] ?? '');
     $preco    = trim($_POST['preco'] ?? '');
     $estoque = trim($_POST['estoque'] ?? '');
-    $fPreco = formatarPreco($preco);
+    $preco = trim($_POST['preco'] ?? '');
+	$imagem = trim($_FILES['imagem']['name'] ?? ''); 
+    $imagem = $produtos['imagem'];
+    $nomeArquivo = $nomeArquivo ?? null;
+    
+    if (!empty($_FILES['imagem']['name'])) {
+		$extensao  = pathinfo($_FILES['imagem']['name'], PATHINFO_EXTENSION);
+		$permitidos = ['jpg', 'jpeg', 'png', 'webp'];
 
+        if (
+            !empty($produtos['imagem']) &&
+            file_exists('uploads/' . $produtos['imagem'])
+        ) {
+            unlink('uploads/' . $produtos['imagem']);
+        }
+	
+		if (!in_array(strtolower($extensao), $permitidos)) {
+			$erro = 'Tipo de imagem não permitido.';
+		} else {
+			$nomeArquivo = uniqid('prod_') . '.' . $extensao;
+			move_uploaded_file($_FILES['imagem']['tmp_name'], 'uploads/' . $nomeArquivo);
+            $imagem = $nomeArquivo;
+		}
+	}
 
     if ($nome && $descricao && $estoque && $preco) {
 
         $stmt = $pdo->prepare(
             "UPDATE tb_produtos 
-             SET nome = ?,descricao = ?, preco = ?, estoque = ?
+             SET nome = ?,descricao = ?, preco = ?, estoque = ?, imagem = ?
              WHERE id = ?"
         );
 
         $stmt->execute([
             $nome,
             $descricao,
-            $fPreco,
+            $preco,
             $estoque,
+            $imagem,
             $id
         ]);
 
@@ -56,7 +79,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <div style="margin:20px;">
 
     <h1 >Cadastro Produtos</h1>
-    <form action="" method="POST">
+    <form action="" method="POST" enctype="multipart/form-data">
         <label for="Contatos"></label>
             <label for="nome">Nome:</label>
             <input name="nome" id="nome" type="text"  value="<?= $produtos['nome'] ?>" placeholder="Digite seu nome:" required>
@@ -66,6 +89,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <input name="preco" id="preco" type="number"  value="<?= $produtos['preco'] ?>" placeholder="Digite o preço:" min=0 required>
             <label for="estoque">Estoque:</label>
             <input name="estoque" id="estoque" type="number"  value="<?= $produtos['estoque'] ?>" placeholder="Digite estoque:" min=0 maxlength="1000" required>
+            <label for="imagem">Imagem:</label>
+            <input name="imagem" id="imagem" type="file" accept="image/*">
+            <img 
+                src="uploads/<?= $produtos['imagem'] ?>" 
+                width="120"
+            >
             <button type="submit">Enviar</button>
     </form>
 

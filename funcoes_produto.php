@@ -10,6 +10,13 @@ function obterProdutos(PDO $pdo): array {
 	return $stmt->fetchAll();
 }
 
+function formatarPreco($preco) {
+    if ($preco > 0) {
+        return 'R$ ' . number_format($preco, 2, ',', '.');
+    }
+    return 'R$ 0,00';
+}
+
 /**
  * Renderiza a tabela HTML com a lista de Produtoss.
  */
@@ -19,16 +26,9 @@ function exibirTabelaProdutos (array $produtos ): void {
         return;
     }
 
-function formatarPreco($preco) {
-    if ($preco > 0) {
-        return 'R$ ' . number_format($preco, 2, ',', '.');
-    }
-    return 'R$ 0,00';
-}
-
     echo "<table>\n";
     echo "  <thead>\n";
-    echo "    <tr><th>#</th><th>Nome</th><th>Descrição</th><th>Preço</th><th>Estoque</th><th>Ações</th></tr>\n";
+    echo "    <tr><th>#</th><th>Nome</th><th>Descrição</th><th>Preço</th><th>Estoque</th><th>Imagem</th><th>Ações</th></tr>\n";
     echo "  </thead>\n";
     echo "  <tbody>\n";
 
@@ -38,13 +38,17 @@ function formatarPreco($preco) {
         $descricao  = htmlspecialchars($produtos['descricao']);
         $preco = htmlspecialchars($produtos['preco']);
         $estoque  = htmlspecialchars($produtos['estoque']);
+        $imagem  = htmlspecialchars($produtos['imagem']);
+
 
         echo "    <tr>\n";
         echo "      <td>{$num}</td>\n";
         echo "      <td>{$nome}</td>\n";
         echo "      <td>{$descricao}</td>\n";
-        echo "      <td>{$preco}</td>\n";
+        echo "      <td>" . formatarPreco($preco) . "</td>\n";
         echo "      <td>{$estoque}</td>\n";
+        echo "      <td><img src='uploads/$imagem' alt='Imagem do produto' style='width: 100px; height: auto;'></td>\n";
+
         echo "<td><a href='excluir_produto.php?id={$produtos['id']}'><button onclick='return confirm(\"Deseja excluir este cliente?\")' type='button'>Excluir</button></a>
 
             <a href='editar_produtos.php?id={$produtos['id']}'><button type='button'>Editar</button></a></td>";

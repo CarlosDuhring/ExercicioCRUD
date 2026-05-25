@@ -2,6 +2,8 @@
 <?php
 require_once "config.php"; 
 require_once "funcoes_clientes.php";
+include 'cabecalho.php';
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 	$nome     = trim($_POST['nome'] 	?? '');
     $cpf     = trim($_POST['cpf'] 	?? '');
@@ -32,7 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <title>Cadastro de Cliente</title>
 </head>
 <body>
-	<div class="cadastro" style="margin: 20px;">
+	<div class="card">
 		<h1 >Cadastro Cliente</h1>
 		<form action="" method="POST">
 			<label for="Contatos"></label>
