@@ -28,12 +28,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <title>Cadastro de contatos</title>
 </head>
 <body>
-	<div class="cadastro" style="margin: 20px;">
+	<div class="card" >
 		<h1 >Cadastro Contatos</h1>
 		<form action="" method="POST">
-			<label for="Contatos"></label>
+				<label for="Nome:">Nome:</label>
 				<input name="nome" id="nome" type="text" placeholder="Digite seu nome:" required>
+				<label for="email">Email:</label>
 				<input name="email" id="email" type="email" placeholder="Digite seu email:" required>
+				<label for="telefone">Telefone:</label>
 				<input name="telefone" id="telefone" type="telefone" placeholder="Digite seu telefone:" required>
 				<button type="submit">Enviar</button>
 		</form>

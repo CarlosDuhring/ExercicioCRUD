@@ -1,5 +1,6 @@
 <?php
 require_once "config.php";
+include 'cabecalho.php';
 
 $id = $_GET['id'];
 
@@ -53,19 +54,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </head>
 <body>
 
-<div style="margin:20px;">
+    <div class="card">
 
-    <h1>Editar Contatos</h1>
+        <h1>Editar Contatos</h1>
 
-    <form method="POST">
+        <form method="POST">
+            <label for="Nome:">Nome:</label>
+            <input name="nome" id="nome" type="text" placeholder="Digite seu nome:" required>
+            <label for="email">Email:</label>
+            <input name="email" id="email" type="email" placeholder="Digite seu email:" required>
+            <label for="telefone">Telefone:</label>
+            <input name="telefone" id="telefone" type="telefone" placeholder="Digite seu telefone:" required>
+            <button type="submit">Enviar</button>
+        </form>
 
-        <input type="text" name="nome" value="<?= $contato['nome'] ?>" required>
-        <input type="email"name="email"value="<?= $contato['email'] ?>"required>
-        <input type="text"name="telefone"value="<?= $contato['telefone'] ?>">
-        <button type="submit">Salvar</button>
-    </form>
-
-</div>
+    </div>
 
 </body>
 </html>

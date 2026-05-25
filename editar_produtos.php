@@ -1,6 +1,7 @@
 <?php
 require_once "config.php";
 require_once "funcoes_produto.php";
+include 'cabecalho.php';
 
 $id = $_GET['id'];
 
@@ -76,30 +77,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </head>
 <body>
 
-<div style="margin:20px;">
-
-    <h1 >Cadastro Produtos</h1>
-    <form action="" method="POST" enctype="multipart/form-data">
-        <label for="Contatos"></label>
-            <label for="nome">Nome:</label>
-            <input name="nome" id="nome" type="text"  value="<?= $produtos['nome'] ?>" placeholder="Digite seu nome:" required>
-            <label for="descricao">Descrição:</label>
-            <input name="descricao" id="descricao" type="text"  value="<?= $produtos['descricao'] ?>" placeholder="Digite a descrição:" required>
-            <label for="preco">Preço:</label>
-            <input name="preco" id="preco" type="number"  value="<?= $produtos['preco'] ?>" placeholder="Digite o preço:" min=0 required>
-            <label for="estoque">Estoque:</label>
-            <input name="estoque" id="estoque" type="number"  value="<?= $produtos['estoque'] ?>" placeholder="Digite estoque:" min=0 maxlength="1000" required>
-            <label for="imagem">Imagem:</label>
-            <input name="imagem" id="imagem" type="file" accept="image/*">
-            <img 
-                src="uploads/<?= $produtos['imagem'] ?>" 
-                width="120"
-            >
-            <button type="submit">Enviar</button>
-    </form>
-
-</div>
-
+    <div class="card">
+        <h1 >Cadastro Produtos</h1>
+        <form action="" method="POST" enctype="multipart/form-data">
+            <label for="Contatos"></label>
+                <label for="nome">Nome:</label>
+                <input name="nome" id="nome" type="text"  value="<?= $produtos['nome'] ?>" placeholder="Digite seu nome:" required>
+                <label for="descricao">Descrição:</label>
+                <input name="descricao" id="descricao" type="text"  value="<?= $produtos['descricao'] ?>" placeholder="Digite a descrição:" required>
+                <label for="preco">Preço:</label>
+                <input name="preco" id="preco" type="number"  value="<?= $produtos['preco'] ?>" placeholder="Digite o preço:" min=0 required>
+                <label for="estoque">Estoque:</label>
+                <input name="estoque" id="estoque" type="number"  value="<?= $produtos['estoque'] ?>" placeholder="Digite estoque:" min=0 maxlength="1000" required>
+                <h2>Imagem Existente: </h2>
+                <img 
+                    src="uploads/<?= $produtos['imagem'] ?>" 
+                    width="120"
+                >
+                <label for="imagem">Imagem:</label>
+                <input name="imagem" id="imagem" type="file" accept="image/*">
+                <button type="submit">Enviar</button>
+        </form>
+    </div>
 </body>
 </html>
 

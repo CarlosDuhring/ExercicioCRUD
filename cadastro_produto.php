@@ -47,10 +47,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <title>Cadastro de Cliente</title>
 </head>
 <body>
-	<div class="cadastro" style="margin: 20px;">
+	<div class="card">
 		<h1 >Cadastro Produtos</h1>
 		<form action="" method="POST" enctype="multipart/form-data">
-			<label for="Contatos"></label>
                 <label for="nome">Nome:</label>
 				<input name="nome" id="nome" type="text" placeholder="Digite seu nome:" required>
                 <label for="descricao">Descrição:</label>

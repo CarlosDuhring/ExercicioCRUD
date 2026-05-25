@@ -1,3 +1,9 @@
+* {
+    margin: 0;
+    padding: 0;
+        box-sizing: border-box;
+}
+
 nav{
     background-color: #333;
     color: #fff;
@@ -9,21 +15,53 @@ nav{
     width: 100%;
 }
 
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-self: center;
+    justify-content: center;
+    width: 90%;
+    }
+
 li {margin-right: 20px;}
 a {color: #e48820; text-decoration: none;}
 ul {list-style: none;display: flex;}
-body {margin: 0; font-family: Arial, sans-serif; }
+body {margin: 0; font-family: Arial, sans-serif; background-color: aliceblue; }
 table {border-collapse: collapse; width: 80%;  margin: 30px auto;}
 th, td { border: 1px solid rgb(204, 204, 204); padding: 8px; text-align: left; }
 th { background-color: #eee; }
+
 .card{
     background-color: #919191;
     border: 1px solid #ddd;
-    border-radius: 5px;
-    padding: 20px;
-    margin: 20px auto;
-    width: 80%;
-    min-height: 400px;
+    border-radius: 20px;
     display: flex;
-    align-items: center;
+    flex-direction: column;
+    padding: 20px;
+    justify-content: center;
+    width: 80%;
+    margin: 10px auto;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+input {
+    border: none;
+    border-radius: 3px;
+    padding: 10px;
+}
+
+button {
+    background-color: #333;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100px;
+}
+
+table button {
+    margin: 5px;
+    width: 80px;
 }
