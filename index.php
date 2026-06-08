@@ -1,6 +1,6 @@
 <?php
-require_once "config.php";    // erro fatal se não encontrar
-include      "cabecalho.php"; // warning se não encontrar
+require_once "./config/config.php";    // erro fatal se não encontrar
+include      "./views/cabecalho.php"; // warning se não encontrar
 ?>
 
 <div class="card">

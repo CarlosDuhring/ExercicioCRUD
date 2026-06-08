@@ -5,11 +5,21 @@ include_once 'config.php';
  * Retorna o array de clientes.
  * Em um projeto real, isso viria do banco de dados.
  */
-function obterCLientes(PDO $pdo): array {
-	$stmt = $pdo->query('SELECT * FROM tb_clientes ORDER BY nome');
-	return $stmt->fetchAll();
-}
+class clienteDAO {
+    public function read($id) {
+        $sql = "SELECT * FROM tb_cliente WHERE id = ?";
+        
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute([$id]);
+        $dados = $stmt->fetch(PDO::FETCH_ASSOC);
 
+        if (!$dados) return null;
+        $p = new Pessoa($dados['nome'], $dados['cpf'], $dados['email'], $dados['idade']);
+        $p->setId($dados['id']);
+
+        return $p;
+        }
+}
 /**
  * Renderiza a tabela HTML com a lista de c$clientess.
  */

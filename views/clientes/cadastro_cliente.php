@@ -1,7 +1,6 @@
 
 <?php
 require_once "config.php"; 
-require_once "funcoes_clientes.php";
 include 'cabecalho.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {

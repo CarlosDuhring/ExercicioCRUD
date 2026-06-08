@@ -1,25 +1,20 @@
-
 <?php
-require_once "config.php"; 
-include 'cabecalho.php';
+	require_once(__DIR__ . "/../../models/contatos.php");
+	require_once(__DIR__ . "/../../views/contatos/contatoDAO.php");
 
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-	$nome     = trim($_POST['nome'] 	?? '');
-	$email    = trim($_POST['email']	?? '');
-	$telefone = trim($_POST['telefone'] ?? '');
- 
-	if ($nome && $email) {
-    	$stmt = $pdo->prepare(
-        	'INSERT INTO tb_contatos (nome, email, telefone) VALUES (?, ?, ?)'
-    	);
-    	$stmt->execute([$nome, $email, $telefone]);
-    	header('Location: index.php');
-    	exit;
+	if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
+		$nome = $_POST['nome'];
+		$email = $_POST['email'];
+		$telefone = $_POST['telefone'];
+
+		$c = new Contato($nome, $email, $telefone);
+
+		$contatoDAO = new contatosDAO();
+		$contatoDAO->create($c);
 	}
-}
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
