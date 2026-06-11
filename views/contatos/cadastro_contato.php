@@ -1,6 +1,7 @@
 <?php
-	require_once(__DIR__ . "/../../models/contatos.php");
-	require_once(__DIR__ . "/../../views/contatos/contatoDAO.php");
+	require_once "../../models/contatos.php";
+	require_once "../../models/contatoDAO.php";
+	require_once "../../views/cabecalho.php";
 
 
 	if ($_SERVER['REQUEST_METHOD'] == 'POST') {

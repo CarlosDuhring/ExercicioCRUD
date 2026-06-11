@@ -1,6 +1,7 @@
 <?php
 include_once "../../models/contatoDAO.php";
-
+include_once "../../views/cabecalho.php";
+include_once "../../models/contatos.php";
 
 
 $contatoDAO = new contatosDAO();

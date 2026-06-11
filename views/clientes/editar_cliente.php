@@ -1,79 +1,70 @@
 <?php
-require_once "config.php";
-require_once "funcoes_clientes.php";
-include 'cabecalho.php';
+    include_once '../../models/clienteDAO.php';
+    include_once '../../models/clientes.php';
+    include_once '../../views/cabecalho.php';
 
-$id = $_GET['id'];
-
-
-$stmt = $pdo->prepare(
-    "SELECT * FROM tb_clientes WHERE id = ?"
-);
-
-$stmt->execute([$id]);
-
-$clientes = $stmt->fetch(PDO::FETCH_ASSOC);
+    $dao = new clienteDAO();
 
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
-    $nome     = trim($_POST['nome'] ?? '');
-    $cpf     = trim($_POST['cpf'] ?? '');
-    $email    = trim($_POST['email'] ?? '');
-    $telefone = trim($_POST['telefone'] ?? '');
-    $endereco = trim($_POST['endereco'] ?? '');
-    $fCpf = formatarCpf($cpf);
+        $id = $_POST["id"];
+        $nome = $_POST["nome"];
+        $cpf = $_POST["cpf"];
+        $email = $_POST["email"];
+        $telefone = $_POST["telefone"];
+        $endereco = $_POST["endereco"];
 
 
-    if ($nome && $email) {
+        $cliente = new cliente($nome,$cpf, $email, $telefone,$endereco);
+        $cliente->setId($id);
 
-        $stmt = $pdo->prepare(
-            "UPDATE tb_clientes
-             SET nome = ?,cpf = ?,  email =?, telefone = ?, endereco = ?
-             WHERE id = ?"
-        );
+        $dao->update($cliente);
 
-        $stmt->execute([
-            $nome,
-            $fCpf,
-            $email,
-            $telefone,
-            $endereco,
-            $id
-        ]);
-
-        header('Location: index.php');
+        header("Location: lista_clientes.php");
         exit;
     }
-}
+
+    /* =========================
+    CARREGAR DADOS (GET)
+    ========================= */
+    if (isset($_GET['id'])) {
+        $id = $_GET['id'];
+
+        $cliente = $dao->read($id);
+
+        $nome = $cliente->getNome();
+        $cpf = $cliente->getCpf();
+        $email = $cliente->getEmail();
+        $telefone = $cliente->getTelefone();
+        $endereco = $cliente->getEndereco();
+
+
+
+    } else {
+        echo "ID não informado!";
+        exit;
+    }
 ?>
 
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <title>Editar contato</title>
-</head>
-<body>
+<form method="POST">
 
-    <div class="card">
+    <input type="hidden" name="id" value="<?= $id  ?>">
 
-        <h1 >Cadastro Cliente</h1>
-        <form action="" method="POST">
-                <label for="nome">Nome:</label>
-                <input name="nome" id="nome" type="text" value="<?=  $clientes['nome']?>" placeholder="Digite seu nome:" required>
-                <label for="cpf">CPF:</label>
-                <input name="cpf" id="cpf" type="text" value="<?=  $clientes['cpf']?>" placeholder="Digite seu CPF:" required>
-                <label for="email">Email:</label>
-                <input name="email" id="email" type="email" value="<?=  $clientes['email']?>" placeholder="Digite seu email:" required>
-                <label for="telefone">Telefone</label>
-                <input name="telefone" id="telefone" type="tel" value="<?=  $clientes['telefone']?>" placeholder="Digite seu telefone:" required>
-                <label for="endereco">Endereço</label>
-                <input name="endereco" id="endereco" type="text" value="<?=  $clientes['endereco']?>" placeholder="Digite seu endereço:" required>
-                <button type="submit">Enviar</button>
-        </form>
+    <label>Nome:</label>
+    <input name="nome" type="text" value="<?= $nome ?? '' ?>" required>
 
-    </div>
+    <label>CPF:</label>
+    <input name="cpf" type="text" value="<?= $cpf ?? '' ?>" required>
 
-</body>
-</html>
+    <label>Email:</label>
+    <input name="email" type="email" value="<?= $email ?? '' ?>" required>
+
+    <label>Telefone:</label>
+    <input name="telefone" type="text" value="<?= $telefone ?? '' ?>" required>
+
+    <label>Endereço:</label>
+    <input name="endereco" type="text" value="<?= $endereco ?? '' ?>" required>
+
+    <button type="submit">Salvar</button>
+</form>

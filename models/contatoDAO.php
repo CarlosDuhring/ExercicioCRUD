@@ -56,6 +56,20 @@ class contatosDAO {
 
       return $c;
     }
+
+    public function read($id) {
+      $sql = "SELECT * FROM tb_contatos WHERE id = ?";
+      
+      $stmt = $this->conn->prepare($sql);
+      $stmt->execute([$id]);
+      $dados = $stmt->fetch(PDO::FETCH_ASSOC);
+  
+      if (!$dados) return null;
+      $p = new Contato($dados['nome'],  $dados['email'], $dados['telefone']);
+      $p->setId($dados['id']);
+  
+      return $p;
+    }
 }
 
 
