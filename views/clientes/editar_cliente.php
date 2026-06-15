@@ -3,7 +3,7 @@
     include_once '../../models/clientes.php';
     include_once '../../views/cabecalho.php';
 
-    $dao = new clienteDAO();
+    
 
 
     if ($_SERVER["REQUEST_METHOD"] === "POST") {

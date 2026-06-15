@@ -1,12 +1,12 @@
 <?php
 // funcoes.php — funções reutilizáveis
-require_once(__DIR__ . "../../config/config.php");
+require_once("../../config/config.php");
 include_once "contatos.php";
 /**
  * Retorna o array de contatos.
  * Em um projeto real, isso viria do banco de dados.
  */
-class contatosDAO {
+class ContatosDAO {
     private $conn;
     public function __construct() {
       $this->conn = Conexao::getConexao();
@@ -47,12 +47,11 @@ class contatosDAO {
 
 
     public function update(Contato $c) {
-      $sql = "UPDATE  tb_contatos (nome,  email, telefone) WHERE id =?";
+      $sql = "UPDATE  tb_contatos SET (nome,  email, telefone) WHERE id =?";
       
       $stmt = $this->conn->prepare($sql);
 
-      $stmt->execute([$c->getNome(), $c->getEmail(), $c->getTelefone()]);
-      $c->setId($this->conn->lastInsertId());
+      $stmt->execute([$c->getNome(), $c->getEmail(), $c->getTelefone(),$c->getId()]);
 
       return $c;
     }

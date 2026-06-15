@@ -1,8 +1,8 @@
 
 <?php
-require_once "config.php"; 
-require_once "funcoes_produto.php";
-include 'cabecalho.php';
+	require_once "../../models/produto.php";
+	require_once "../../models/produtosDAO.php";
+	require_once "../../views/cabecalho.php";
 
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -11,7 +11,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 	$preco    = trim($_POST['preco']	?? '');
 	$estoque = trim($_POST['estoque'] ?? '');
 	$imagem = trim($_FILES['imagem']['name'] ?? '');    
-	$nomeArquivo = $nomeArquivo ?? null;
+	$nomeArquivo = null;
 
 	if (!empty($_FILES['imagem']['name'])) {
 		$extensao  = pathinfo($_FILES['imagem']['name'], PATHINFO_EXTENSION);
@@ -19,6 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 	
 		if (!in_array(strtolower($extensao), $permitidos)) {
 			$erro = 'Tipo de imagem não permitido.';
+			
 		} else {
 			$nomeArquivo = uniqid('prod_') . '.' . $extensao;
 			move_uploaded_file($_FILES['imagem']['tmp_name'], 'uploads/' . $nomeArquivo);
@@ -26,16 +27,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 	}
  
 	if ($nome && $descricao && $estoque && $preco) {
-    	$stmt = $pdo->prepare(
-        	'INSERT INTO tb_produtos (nome,descricao, preco, estoque, imagem) VALUES (?, ?, ?, ?, ?)'
-    	);
-    	$stmt->execute([$nome,$descricao, $preco, $estoque, $nomeArquivo]);
-    	header('Location: index.php');
-    	exit;
+    	$produto = new Produto ($nome,$descricao, $preco, $estoque,$nomeArquivo);
+    	$produtoDAO = new produtoDAO();
+		$produtoDAO->create($produto);
+
+		header("Location: produto.php?success=true");
+		exit();
 	}
 }
-
-
+if (isset($_GET['success']) && $_GET['success'] == 'true') {
+		echo "<p>Produtos cadastrado com sucesso!</p>";
+	}
 
 ?>
 
@@ -57,9 +59,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <label for="preco">Preço:</label>
 				<input name="preco" id="preco" type="number" placeholder="Digite o preço:" min=0 required>
                 <label for="estoque">Estoque:</label>
-				<input name="estoque" id="estoque" type="number" placeholder="Digite estoque:" min=0 maxlength="1000" required>
+				<input name="estoque" id="estoque" type="number" placeholder="Digite estoque:" min=0 max="1000" required>
 				<label for="imagem">Imagem:</label>
 				<input name="imagem" id="imagem" type="file" placeholder="Coloque a imagem:" required>
+				<?php if (!empty($erro)) echo "<p>$erro</p>"; ?>
 				<button type="submit">Enviar</button>
 		</form>
 	</div>

@@ -9,7 +9,7 @@ class Conexao {
         self::$instancia = new PDO(
           "mysql:host=localhost;dbname=agenda;charset=utf8",
           "root",
-          ""
+          "Cadu"
         );
         self::$instancia->setAttribute(
           PDO::ATTR_ERRMODE,

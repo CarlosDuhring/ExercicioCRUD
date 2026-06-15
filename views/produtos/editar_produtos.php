@@ -1,19 +1,11 @@
 <?php
-require_once "config.php";
-require_once "funcoes_produto.php";
-include 'cabecalho.php';
+    include_once '../../models/produtosDAO.php';
+    include_once '../../models/produto.php';
+    include_once '../../views/cabecalho.php';;
 
-$id = $_GET['id'];
-
-
-$stmt = $pdo->prepare(
-    "SELECT * FROM tb_produtos WHERE id = ?"
-);
-
-$stmt->execute([$id]);
-
-$produtos = $stmt->fetch(PDO::FETCH_ASSOC);
-
+    $dao = new produtoDAO();
+    $id = $_GET['id'];
+    $produto = $dao->read($id);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
@@ -21,20 +13,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $descricao   = trim($_POST['descricao'] ?? '');
     $preco    = trim($_POST['preco'] ?? '');
     $estoque = trim($_POST['estoque'] ?? '');
-    $preco = trim($_POST['preco'] ?? '');
 	$imagem = trim($_FILES['imagem']['name'] ?? ''); 
-    $imagem = $produtos['imagem'];
-    $nomeArquivo = $nomeArquivo ?? null;
+    $nomeArquivo = $produto->getImagem();
     
     if (!empty($_FILES['imagem']['name'])) {
 		$extensao  = pathinfo($_FILES['imagem']['name'], PATHINFO_EXTENSION);
 		$permitidos = ['jpg', 'jpeg', 'png', 'webp'];
 
         if (
-            !empty($produtos['imagem']) &&
-            file_exists('uploads/' . $produtos['imagem'])
+            !empty($produto->getImagem()) &&
+            file_exists('uploads/' . $produto->getImagem())
         ) {
-            unlink('uploads/' . $produtos['imagem']);
+            unlink('uploads/' . $produto->getImagem());
         }
 	
 		if (!in_array(strtolower($extensao), $permitidos)) {
@@ -48,24 +38,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if ($nome && $descricao && $estoque && $preco) {
 
-        $stmt = $pdo->prepare(
-            "UPDATE tb_produtos 
-             SET nome = ?,descricao = ?, preco = ?, estoque = ?, imagem = ?
-             WHERE id = ?"
-        );
+        $produto = new Produto ($nome,$descricao, $preco, $estoque,$nomeArquivo,$id);
+    	$produtoDAO = new produtoDAO();
+		$produtoDAO->update($produto);
 
-        $stmt->execute([
-            $nome,
-            $descricao,
-            $preco,
-            $estoque,
-            $imagem,
-            $id
-        ]);
-
-        header('Location: index.php');
-        exit;
+		header("Location: produto.php?success=true");
+		exit();
     }
+}
+if (isset($_GET['success']) && $_GET['success'] == 'true') {
+    echo "<p>Produtos cadastrado com sucesso!</p>";
 }
 ?>
 
@@ -82,16 +64,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <form action="" method="POST" enctype="multipart/form-data">
             <label for="Contatos"></label>
                 <label for="nome">Nome:</label>
-                <input name="nome" id="nome" type="text"  value="<?= $produtos['nome'] ?>" placeholder="Digite seu nome:" required>
+                <input name="nome" id="nome" type="text"  value="<?= $produto->getNome() ?>" placeholder="Digite seu nome:" required>
                 <label for="descricao">Descrição:</label>
-                <input name="descricao" id="descricao" type="text"  value="<?= $produtos['descricao'] ?>" placeholder="Digite a descrição:" required>
+                <input name="descricao" id="descricao" type="text"  value="<?= $produto->getDescricao() ?>" placeholder="Digite a descrição:" required>
                 <label for="preco">Preço:</label>
-                <input name="preco" id="preco" type="number"  value="<?= $produtos['preco'] ?>" placeholder="Digite o preço:" min=0 required>
+                <input name="preco" id="preco" type="number"  value="<?= $produto->getPreco() ?>" placeholder="Digite o preço:" min=0 required>
                 <label for="estoque">Estoque:</label>
-                <input name="estoque" id="estoque" type="number"  value="<?= $produtos['estoque'] ?>" placeholder="Digite estoque:" min=0 maxlength="1000" required>
+                <input name="estoque" id="estoque" type="number"  value="<?= $produto->getEstoque() ?>" placeholder="Digite estoque:" min=0 max="1000" required>
                 <h2>Imagem Existente: </h2>
                 <img 
-                    src="uploads/<?= $produtos['imagem'] ?>" 
+                    src="uploads/<?= $produto->getImagem() ?>" 
                     width="120"
                 >
                 <label for="imagem">Imagem:</label>

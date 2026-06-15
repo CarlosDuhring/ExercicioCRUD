@@ -1,6 +1,6 @@
 <?php
 // funcoes.php — funções reutilizáveis
-require_once(__DIR__ . "../../config/config.php");
+require_once("../../config/config.php");
 include_once "clientes.php";
 /**
  * Retorna o array de clientes.
@@ -49,13 +49,11 @@ class clienteDAO {
 
 
     public function update(Cliente $cliente) {
-      $sql = "UPDATE  tb_clientes nome = ?, cpf = ?, email = ?, telefone = ?,endereco = ? WHERE id =?";
+      $sql = "UPDATE  tb_clientes SET nome = ?, cpf = ?, email = ?, telefone = ?,endereco = ? WHERE id =?";
       
       $stmt = $this->conn->prepare($sql);
 
-      $stmt->execute([$cliente->getNome(),$cliente->getCpf(), $cliente->getEmail(),  $cliente->getTelefone(), $cliente->getEndereco()]);
-      $cliente->setId($this->conn->lastInsertId());
-
+      $stmt->execute([$cliente->getNome(),$cliente->getCpf(), $cliente->getEmail(),  $cliente->getTelefone(), $cliente->getEndereco(),$cliente->getId()]);
       return $cliente;
     }
 
@@ -67,10 +65,10 @@ class clienteDAO {
       $dados = $stmt->fetch(PDO::FETCH_ASSOC);
   
       if (!$dados) return null;
-      $p = new Cliente($dados['nome'],  $dados['cpf'],  $dados['email'], $dados['telefone'], $dados['endereco']);
-      $p->setId($dados['id']);
+      $cliente = new Cliente($dados['nome'],  $dados['cpf'],  $dados['email'], $dados['telefone'], $dados['endereco']);
+      $cliente->setId($dados['id']);
   
-      return $p;
+      return $cliente;
     }
 }
 

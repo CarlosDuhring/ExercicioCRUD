@@ -19,23 +19,23 @@
     
       public function getNome()  { return $this->nome; }
       public function getCpf() { return $this->cpf; }
-
       public function getEmail() { return $this->email; }
       public function getTelefone() { return $this->telefone; }
       public function getEndereco() { return $this->endereco; }
 
+
       public function getId() { return $this->id; }
-    
       public function setNome($n)  { $this->nome = trim($n); }
 
       public function setCpf($c)  { 
-        if (!preg_match("/^\d{3}\.\d{3}\.\d{3}\-\d{2}$/", $c)) {
-          throw new Exception("CPF inválido. O formato deve ser xxx.xxx.xxx-xx");
-        }
         if (empty($c)) {
           throw new Exception("Cpf não pode ser vazio");
         }
+        if (!preg_match("/^\d{3}\.\d{3}\.\d{3}\-\d{2}$/", $c)) {
+          throw new Exception("CPF inválido. O formato deve ser xxx.xxx.xxx-xx");
+        }
         $this->cpf = trim($c); }
+
       public function setId($id) {$this->id = $id; }
     
       public function setEmail($e) {
@@ -54,7 +54,7 @@
       public function setTelefone($i)  { $this->telefone = $i; }
     
       public function __toString() {
-        return "{$this->nome} - {$this->email} — {$this->telefone} ";
+        return "{$this->nome} — {$this->cpf}  - {$this->email} — {$this->telefone} — {$this->endereco} ";
       }
     }
 
