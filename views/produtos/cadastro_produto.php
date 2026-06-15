@@ -22,7 +22,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 			
 		} else {
 			$nomeArquivo = uniqid('prod_') . '.' . $extensao;
-			move_uploaded_file($_FILES['imagem']['tmp_name'], 'uploads/' . $nomeArquivo);
+		
+			move_uploaded_file($_FILES['imagem']['tmp_name'], '../../uploads/' . $nomeArquivo);
 		}
 	}
  
@@ -31,7 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     	$produtoDAO = new produtoDAO();
 		$produtoDAO->create($produto);
 
-		header("Location: produto.php?success=true");
+		header("Location: lista_produtos.php?success=true");
 		exit();
 	}
 }

@@ -1,30 +1,30 @@
 <?php
-require_once 'config.php';
+    include_once '../../models/produtosDAO.php';
 
-$id = $_GET['id'];
+    if (isset($_GET['id'])) {
+        $id = $_GET['id'];
+        $dao = new produtoDAO();
+        $produto = $dao->read($id);
 
-$stmt = $pdo->prepare(
-    "SELECT imagem FROM tb_produtos WHERE id = ?"
-);
+        if (
+            !empty($produto->getImagem()) &&
+            file_exists('../../uploads/' . $produto->getImagem())
+        ) {
+    
+            unlink('../../uploads/' . $produto->getImagem());
+        }
+    
+        $dao->delete($id);
 
-$stmt->execute([$id]);
+    
+        header('Location: lista_produtos.php');
+        exit;
+    } else {
+        echo "ID não informado!";
+    }
 
-$produto = $stmt->fetch(PDO::FETCH_ASSOC);
 
-if (
-    !empty($produto['imagem']) &&
-    file_exists('uploads/' . $produto['imagem'])
-) {
+    
 
-    unlink('uploads/' . $produto['imagem']);
-}
-
-$stmt = $pdo->prepare(
-    "DELETE FROM tb_produtos WHERE id = ?"
-);
-
-$stmt->execute([$id]);
-
-header('Location: index.php');
-exit;
+    
 ?>

@@ -5,10 +5,23 @@ include_once '../../views/cabecalho.php';
 
 $dao = new contatosDAO();
 
+if (isset($_GET['id'])) {
+    $id = $_GET['id'];
 
+    $contato = $dao->read($id);
+
+    $nome = $contato->getNome();
+    $email = $contato->getEmail();
+    $telefone = $contato->getTelefone();
+    $id = $contato->getId();
+
+
+} else {
+    echo "ID não informado!";
+    exit;
+}
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
-    $id = $_POST["id"];
     $nome = $_POST["nome"];
     $email = $_POST["email"];
     $telefone = $_POST["telefone"];
@@ -20,24 +33,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $dao->update($contato);
 
     header("Location: lista_contatos.php");
-    exit;
-}
-
-/* =========================
-   CARREGAR DADOS (GET)
-========================= */
-if (isset($_GET['id'])) {
-    $id = $_GET['id'];
-
-    $contato = $dao->read($id);
-
-    $nome = $contato->getNome();
-    $email = $contato->getEmail();
-    $telefone = $contato->getTelefone();
-
-
-} else {
-    echo "ID não informado!";
     exit;
 }
 ?>

@@ -14,7 +14,13 @@
 
 		$contatoDAO = new contatosDAO();
 		$contatoDAO->create($c);
+		header("Location: lista_contatos.php?success=true");
+		exit();
 	}
+if (isset($_GET['success']) && $_GET['success'] == 'true') {
+		echo "<p>Contato cadastrado com sucesso!</p>";
+	}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">

@@ -17,7 +17,7 @@
 		$clienteDAO = new clienteDAO();
 		$clienteDAO->create($cliente);
 		
-		header("Location: clientes.php?success=true");
+		header("Location: lista_clientes.php?success=true");
 		exit();
 	}
 	if (isset($_GET['success']) && $_GET['success'] == 'true') {

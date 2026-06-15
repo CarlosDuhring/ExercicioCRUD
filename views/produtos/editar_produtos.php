@@ -22,16 +22,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         if (
             !empty($produto->getImagem()) &&
-            file_exists('uploads/' . $produto->getImagem())
+            file_exists('../../uploads/' . $produto->getImagem())
         ) {
-            unlink('uploads/' . $produto->getImagem());
+            unlink('../../uploads/' . $produto->getImagem());
         }
 	
 		if (!in_array(strtolower($extensao), $permitidos)) {
 			$erro = 'Tipo de imagem não permitido.';
 		} else {
 			$nomeArquivo = uniqid('prod_') . '.' . $extensao;
-			move_uploaded_file($_FILES['imagem']['tmp_name'], 'uploads/' . $nomeArquivo);
+			move_uploaded_file($_FILES['imagem']['tmp_name'], '../../uploads/' . $nomeArquivo);
             $imagem = $nomeArquivo;
 		}
 	}
@@ -42,7 +42,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     	$produtoDAO = new produtoDAO();
 		$produtoDAO->update($produto);
 
-		header("Location: produto.php?success=true");
+		header("Location: lista_produtos.php?success=true");
 		exit();
     }
 }
@@ -73,7 +73,7 @@ if (isset($_GET['success']) && $_GET['success'] == 'true') {
                 <input name="estoque" id="estoque" type="number"  value="<?= $produto->getEstoque() ?>" placeholder="Digite estoque:" min=0 max="1000" required>
                 <h2>Imagem Existente: </h2>
                 <img 
-                    src="uploads/<?= $produto->getImagem() ?>" 
+                    src="../../uploads/<?= $produto->getImagem() ?>" 
                     width="120"
                 >
                 <label for="imagem">Imagem:</label>

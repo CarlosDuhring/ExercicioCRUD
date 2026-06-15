@@ -47,7 +47,7 @@ class ContatosDAO {
 
 
     public function update(Contato $c) {
-      $sql = "UPDATE  tb_contatos SET (nome,  email, telefone) WHERE id =?";
+      $sql = "UPDATE  tb_contatos SET nome = ?,  email = ?, telefone = ?WHERE id =?";
       
       $stmt = $this->conn->prepare($sql);
 
