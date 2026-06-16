@@ -1,3 +1,8 @@
+CREATE DATABASE agenda;
+USE agenda;
+
+
+
 -- =========================
 -- TABELA TB_CONTATOS
 -- =========================
@@ -49,7 +54,7 @@ CREATE TABLE tb_produtos (
     descricao TEXT,
     preco DECIMAL(10,2) NOT NULL,
     estoque INT NOT NULL,
-    imagem VARCHAR(255) null
+    imagem VARCHAR(255) null,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 

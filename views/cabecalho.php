@@ -13,12 +13,12 @@
             <h1>CRUD PHP</h1>
             <ul>
                 <li><a href="/index.php">Inicio</a></li>
-                <li><a href="/index.php?id={$produto->getId()}">Cadastrar Cliente </a></li>
-                <li><a href="/index.php?id={$produto->getId()}">Cadastrar Produto</a></li>
-                <li><a href="/index.php?id={$produto->getId()}">Cadastrar contato</a></li>
-                <li><a href="/index.php?id={$produto->getId()}">Clientes</a></li>
-                <li><a href="/index.php?id={$produto->getId()}">Contatos</a></li>
-                <li><a href="/index.php?id={$produto->getId()}">Produtos</a></li>
+                <li><a href="/?pagina=cadastro_cliente">Cadastrar Cliente</a></li>
+                <li><a href="/?pagina=cadastro_produto">Cadastrar Produto</a></li>
+                <li><a href="/?pagina=cadastro_contato">Cadastrar contato</a></li>
+                <li><a href="/?pagina=lista_clientes">Clientes</a></li>
+                <li><a href="/?pagina=lista_contatos">Contatos</a></li>
+                <li><a href="/?pagina=lista_produtos">Produtos</a></li>
             </ul>  
         </nav>
     </header>
